@@ -17,7 +17,7 @@ public class Main{
             System.out.println(i+1 + " : " + tabpoke[i].getNom()+ " PV : " + tabpoke[i].getPv() + " PV Max : " + tabpoke[i].getPvMax() + " Attaque : " + tabpoke[i].getAttaque() + " Defense : " + tabpoke[i].getDefense() + " Vitesse : " + tabpoke[i].getVitesse());    
             
         }
-
+        
     }
 
 }
