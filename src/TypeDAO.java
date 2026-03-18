@@ -18,9 +18,10 @@ public class TypeDAO {
     }
 
     public Type[] chargeType(DatabaseManager dbm){
-        String sql = "SELECT * from type" ;
+        String sql = "SELECT * from types;" ;
         Type[] tabType = new Type[GEN1] ;// definir la taille du tab //
         try {
+
             PreparedStatement requete = dbm.getConnection().prepareStatement(sql);
             ResultSet donnee = requete.executeQuery() ;
             int i = 0 ;
@@ -29,11 +30,12 @@ public class TypeDAO {
                 tabType[i] = new Type(libelle);
                 i++;
             }
+
         }
         catch(SQLException e)  {
             System.out.println("ERREUR DU CHARGEMENT DES TYPES : " + e.getErrorCode());
         }
-        return tabType;
+        return tabType ;
 
     }
 
