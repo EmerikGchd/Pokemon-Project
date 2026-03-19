@@ -1,9 +1,9 @@
-public class attaque {
+public class Attaque {
     private String libelle;
     private int puissance;
     private int typeId;
 
-    public attaque(String libelle, int puissance, int typeId) {
+    public Attaque(String libelle, int puissance, int typeId) {
         this.libelle = libelle;
         this.puissance = puissance;
         this.typeId = typeId;

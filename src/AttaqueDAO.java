@@ -2,11 +2,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class attaqueDAO {
+public class AttaqueDAO {
     public final static int MAX_ATTAQUES = 200;
     private DatabaseManager dbm;
 
-    public attaqueDAO() {
+    public AttaqueDAO() {
         dbm = new DatabaseManager();
         try {
             dbm.connect();
@@ -15,9 +15,9 @@ public class attaqueDAO {
         }
     }
 
-    public attaque[] chargeAttaque(DatabaseManager dbm) {
+    public Attaque[] chargeAttaque(DatabaseManager dbm) {
         String sql = "SELECT * FROM attaques";
-        attaque[] tabAttaque = new attaque[MAX_ATTAQUES];
+        Attaque[] tabAttaque = new Attaque[MAX_ATTAQUES];
         try {
             PreparedStatement requete = dbm.getConnection().prepareStatement(sql);
             ResultSet donnee = requete.executeQuery();
@@ -26,7 +26,7 @@ public class attaqueDAO {
                 String libelle  = donnee.getString("libelle");
                 int puissance   = donnee.getInt("puissance");
                 int typeId      = donnee.getInt("type_id");
-                tabAttaque[i]   = new attaque(libelle, puissance, typeId);
+                tabAttaque[i]   = new Attaque(libelle, puissance, typeId);
                 i++;
             }
         } catch (SQLException e) {
@@ -35,12 +35,12 @@ public class attaqueDAO {
         return tabAttaque;
     }
 
-    public attaque[] recupAttaquesPokemon(int fkPokemon, DatabaseManager dbm) {
+    public Attaque[] recupAttaquesPokemon(int fkPokemon, DatabaseManager dbm) {
         String sql = "SELECT a.libelle, a.puissance, a.type_id " +
                      "FROM attaques a " +
                      "JOIN pokemon_attaque pa ON pa.fkAttaque = a.id " +
                      "WHERE pa.fkPokemon = ? LIMIT " + MAX_ATTAQUES + ";";
-        attaque[] tabAttaque = new attaque[MAX_ATTAQUES];
+        Attaque[] tabAttaque = new Attaque[MAX_ATTAQUES];
         try {
             PreparedStatement pstmt = dbm.getConnection().prepareStatement(sql);
             pstmt.setInt(1, fkPokemon);
@@ -50,7 +50,7 @@ public class attaqueDAO {
                 String libelle  = donnee.getString("libelle");
                 int puissance   = donnee.getInt("puissance");
                 int typeId      = donnee.getInt("type_id");
-                tabAttaque[i]   = new attaque(libelle, puissance, typeId);
+                tabAttaque[i]   = new Attaque(libelle, puissance, typeId);
                 i++;
             }
         } catch (SQLException e) {
