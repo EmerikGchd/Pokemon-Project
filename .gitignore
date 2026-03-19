@@ -1,4 +1,4 @@
 src/DatabaseManager.java
 src/*.class
-lib/*
-sql/*
+lib/
+sql/
