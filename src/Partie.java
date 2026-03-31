@@ -1,4 +1,6 @@
+import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Partie{
 
@@ -7,16 +9,14 @@ public class Partie{
     private Joueur joueur2;
     private String nomJ;
     Pokemon[] equipeJ;
+    Random rand = new Random();
+
     
-   
-
-
     public void debutPartie(DatabaseManager dbm){
 
         System.out.println("Début de la partie");
         Scanner nbJoueur = new Scanner(System.in);
         int choix = 0;
-        Pokemon[] equipeJ1 = new Pokemon[NB_POKEMON_PAR_EQUIPE];
         do{
             System.out.println("Choisissez le nombre de joueurs : ");
             System.out.println("/1/  1 Joueur (contre l'IA)");
@@ -24,12 +24,20 @@ public class Partie{
             choix = nbJoueur.nextInt();
             if (choix == 1){
                 System.out.println("Vous avez choisi de jouer contre l'IA");
-                Scanner scJ1 = new Scanner(System.in);
-                System.out.println("Entrez votre nom : ");
-                nomJ = scJ1.nextLine();
-                scJ1.close();
-                equipeJ1 = choisirPokemon(dbm);
-                joueur1 = new Joueur(nomJ, equipeJ1);               
+                
+                nomJ = "Professeur Axeman";
+                equipeJ = new Pokemon[NB_POKEMON_PAR_EQUIPE];
+                for (int i = 0; i < equipeJ.length; i++) {
+                    int idPokeIA = rand.nextInt(151) + 1;
+                    Attaque[] attaquesPokeIA = new AttaqueDAO().recupAttaquesPokemon(idPokeIA, dbm);
+                    PokemonDAO pokeDAO = new PokemonDAO();
+                    equipeJ[i] = pokeDAO.chargerParId(idPokeIA, attaquesPokeIA);
+                }
+                JoueurIA joueurIA = new JoueurIA(nomJ, equipeJ);
+                System.out.println("Voici votre adversaire :"+ joueurIA);
+
+                joueur1 = creationJH(dbm);
+                 
 
             } else if (choix == 2){
             System.out.println("Vous avez choisi de jouer contre un autre joueur");
@@ -40,8 +48,24 @@ public class Partie{
         System.out.println("Choix invalide, veuillez réessayer, Choix Valide : 1 ou 2");
         nbJoueur.close();   
     }
- 
-    private Pokemon[] choisirPokemon(DatabaseManager dbm) {
+    private JoueurHumain creationJH(DatabaseManager dbm){
+
+        Scanner scJ1 = new Scanner(System.in);
+        System.out.println("Entrez votre nom : ");
+        nomJ = scJ1.nextLine();
+        scJ1.close();
+        equipeJ = choisirPokemonJH(dbm);
+        JoueurHumain joueur = new JoueurHumain(nomJ, equipeJ);
+        System.out.println("Salut "+ joueur.getNom()+", voici votre équipe : "+ equipeJ);
+        try {
+            dbm.disconnect();
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la déconnexion ! Code Erreur : " + e.getErrorCode());
+        }
+        return joueur;        
+    
+    }
+    private Pokemon[] choisirPokemonJH(DatabaseManager dbm) {
         try {
             dbm.connect();
         } catch (Exception e) {
@@ -66,6 +90,11 @@ public class Partie{
             scJ.nextLine();
         }
         scJ.close();
+        try {
+            dbm.disconnect();
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la déconnexion ! Code Erreur : " + e.getErrorCode());
+        }
         return equipeJ;
     }
 }

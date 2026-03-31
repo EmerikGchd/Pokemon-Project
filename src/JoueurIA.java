@@ -5,12 +5,8 @@ public class JoueurIA extends Joueur {
     private String nomVille;
     
     
-    public JoueurIA(Pokemon[] equipe,String nom, int arene, String nomArene, String nomVille) {
+    public JoueurIA(String nom,Pokemon[] equipe) {
         super(nom,equipe);
-        this.arene = arene;
-        this.nomArene = nomArene;
-        this.nomVille = nomVille
-        ;
     }
 
     public int getArene() {return arene;}
