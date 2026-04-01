@@ -19,10 +19,10 @@ public class Main {
         }
 
         // ── Test attaqueDAO ───────────────────────────────────
-        AttaqueDAO attaqueDAO = new AttaqueDAO();
-        Attaque[] attaques = attaqueDAO.chargeAttaque(dbm);
+        AttaqueDAO AttaqueDAO = new AttaqueDAO();
+        Attaque[] Attaques = AttaqueDAO.chargeAttaque(dbm);
         System.out.println("\n=== Attaques ===");
-        for (Attaque a : attaques) {
+        for (Attaque a : Attaques) {
             if (a != null) {
                 System.out.println("- " + a.getLibelle() + " | puissance : " + a.getPuissance() + " | type : " + a.getTypeId());
             }

@@ -35,26 +35,23 @@ public class AttaqueDAO {
         return tabAttaque;
     }
 
-    public Attaque[] recupAttaquesPokemon(int fkPokemon, DatabaseManager dbm) {
-        String sql = "SELECT a.libelle, a.puissance, a.type_id " +
-                     "FROM attaques a " +
-                     "JOIN pokemon_attaque pa ON pa.fkAttaque = a.id " +
-                     "WHERE pa.fkPokemon = ? LIMIT " + MAX_ATTAQUES + ";";
-        Attaque[] tabAttaque = new Attaque[MAX_ATTAQUES];
+    public Attaque[] recupAttaquesAleatoires(int typeId, DatabaseManager dbm) {
+        String sql = "SELECT libelle, puissance, type_id FROM attaques WHERE type_id = ? ORDER BY RAND() LIMIT 4";
+        Attaque[] tabAttaque = new Attaque[4];
         try {
             PreparedStatement pstmt = dbm.getConnection().prepareStatement(sql);
-            pstmt.setInt(1, fkPokemon);
+            pstmt.setInt(1, typeId);
             ResultSet donnee = pstmt.executeQuery();
             int i = 0;
-            while (donnee.next() && i < MAX_ATTAQUES) {
-                String libelle  = donnee.getString("libelle");
-                int puissance   = donnee.getInt("puissance");
-                int typeId      = donnee.getInt("type_id");
-                tabAttaque[i]   = new Attaque(libelle, puissance, typeId);
+            while (donnee.next() && i < 4) {
+                String libelle = donnee.getString("libelle");
+                int puissance  = donnee.getInt("puissance");
+                int type       = donnee.getInt("type_id");
+                tabAttaque[i]  = new Attaque(libelle, puissance, type);
                 i++;
             }
         } catch (SQLException e) {
-            System.out.println("ERREUR ATTAQUES POKEMON : " + e.getErrorCode());
+            System.out.println("ERREUR ATTAQUES ALEATOIRES : " + e.getErrorCode());
         }
         return tabAttaque;
     }

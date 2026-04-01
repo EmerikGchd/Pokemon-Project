@@ -7,7 +7,7 @@ public class Pokemon {
     private int vitesse;
     private Type[] types;  
     private Attaque[] attaques; 
-    //private Etat etat;
+    private Etat etat;
 
    
 
@@ -19,6 +19,7 @@ public class Pokemon {
         this.defense = defense;
         this.vitesse = vitesse;
         this.types = types;
+        this.etat = new Etat();
         
     }
 
