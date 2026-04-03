@@ -16,4 +16,8 @@ public class Attaque {
     public void setLibelle(String libelle)      { this.libelle = libelle; }
     public void setPuissance(int puissance)     { this.puissance = puissance; }
     public void setTypeId(int typeId)           { this.typeId = typeId; }
+
+    public String toString() {
+        return "Attaque : " + libelle + ", Puissance=" + puissance + ", TypeID=" + typeId + "\n";
+    }
 }

@@ -11,6 +11,8 @@ public class Partie{
     Pokemon[] equipeJ;
     Random rand = new Random();
     AttaqueDAO aDAO = new AttaqueDAO();
+    Scanner scJ1 = new Scanner(System.in);
+    Scanner scJ = new Scanner(System.in);
 
     
     public void debutPartie(DatabaseManager dbm){
@@ -37,10 +39,11 @@ public class Partie{
                     equipeJ[i] = pokeDAO.chargerParId(idPokeIA, attaquesPokeIA);
                 }
                 JoueurIA joueurIA = new JoueurIA(nomJ, equipeJ);
-                System.out.println("Voici votre adversaire :"+ joueurIA.toString());
+                System.out.println("Voici votre adversaire : \n "+ joueurIA.toString());
 
                 //creation du joueur humain
                 joueur1 = creationJH(dbm);
+                System.out.println("Voici votre dresseur : " + joueur1.toString());
                  
 
             } else if (choix == 2){
@@ -57,19 +60,22 @@ public class Partie{
                 System.out.println("Voici vos equipes : "+ joueur1.toString() + "\n" + joueur2.toString());
         
             }
+
+            if (choix != 1 && choix != 2){
+                System.out.println("Choix invalide, veuillez réessayer, Choix Valide : 1 ou 2");        
+            }
             
         } while (choix != 1 && choix != 2);
-        System.out.println("Choix invalide, veuillez réessayer, Choix Valide : 1 ou 2");
         nbJoueur.close();   
     }
+
+
     private JoueurHumain creationJH(DatabaseManager dbm){
 
-        Scanner scJ1 = new Scanner(System.in);
         System.out.println("Entrez votre nom : ");
         nomJ = scJ1.nextLine();
         equipeJ = choisirPokemonJH(dbm);
         JoueurHumain joueur = new JoueurHumain(nomJ, equipeJ);
-        System.out.println("Voici votre dresseur : "+ joueur.toString());
         try {
             dbm.disconnect();
         } catch (SQLException e) {
@@ -78,14 +84,16 @@ public class Partie{
         return joueur;        
     
     }
+
+    
     private Pokemon[] choisirPokemonJH(DatabaseManager dbm) {
         try {
             dbm.connect();
         } catch (Exception e) {
             System.out.println("Erreur lors de la connexion : " + e.getMessage());
         }
-        Scanner scJ = new Scanner(System.in);
         System.out.println("Voici la liste des Pokémon disponibles : ");
+        pause(1000);
         PokemonDAO pokeDAO = new PokemonDAO();
         pokeDAO.chargerTous();
 
@@ -93,7 +101,6 @@ public class Partie{
         equipeJ = new Pokemon[NB_POKEMON_PAR_EQUIPE];
         for (int i = 0; i < equipeJ.length; i++) {
             do{
-                
                 System.out.println("Entrez le numéro de votre Pokémon n°" + (i+1) + " : ");
                 idPokeJ1 = scJ.nextInt();
             }while(idPokeJ1 < 1 || idPokeJ1 > PokemonDAO.GEN1);
@@ -101,7 +108,6 @@ public class Partie{
             equipeJ[i] = pokeDAO.chargerParId(idPokeJ1, attaquesPokeJ1);
             scJ.nextLine();
         }
-        scJ.close();
         try {
             dbm.disconnect();
         } catch (SQLException e) {
@@ -109,4 +115,14 @@ public class Partie{
         }
         return equipeJ;
     }
+    
+    public static void pause(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    
+
 }

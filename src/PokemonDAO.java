@@ -26,6 +26,8 @@ public class PokemonDAO{
                 int defense = donnees.getInt("defense");
                 int vitesse = donnees.getInt("vitesse");
                 System.out.println(" id : "+ id  + " | nom : " + nom + " | pv : " + pv + " | pvMax : " + pvMax + " | attaque : " + attaque + " | defense : " + defense + " | vitesse : " + vitesse);
+                Partie p = new Partie();
+                p.pause(100);
             }    
 
         } catch (SQLException e) {

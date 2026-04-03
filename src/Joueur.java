@@ -29,7 +29,7 @@ public class Joueur{
         sb.append("Joueur: ").append(nom).append("\n");
         sb.append("Equipe:\n");
         for (Pokemon p : equipe) {
-            sb.append("- ").append(p.getNom()).append(" (PV: ").append(p.getPv()).append(")\n");
+            sb.append("- ").append(p.getNom()).append("\n PV: ").append(p.getPv()).append(" ").append(p.getAttaques()).append("\n");
         }
         return sb.toString();
     }

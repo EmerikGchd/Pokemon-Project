@@ -38,6 +38,10 @@ public class Pokemon {
     }
 
     public Attaque attaqueByIndex(int index) { return this.attaques[index];}
+    public String getAttaques() {
+        String a = attaques[0].toString() + attaques[1].toString() + attaques[2].toString() + attaques[3].toString();
+        return a;
+    }
     
     public Type[] getTypes() {return types;}
     public void setTypes(Type[] types) {this.types = types;}
