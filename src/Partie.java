@@ -1,6 +1,7 @@
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
+@SuppressWarnings("ConvertToTryWithResources")
 
 public class Partie{
 
@@ -14,12 +15,14 @@ public class Partie{
     Scanner scJ1 = new Scanner(System.in);
     Scanner scJ = new Scanner(System.in);
 
-    
-    public void debutPartie(DatabaseManager dbm){
+    //Méthode pour le début de la partie, elle gère la création des joueurs et de leurs équipes
+    @SuppressWarnings("ConvertToTryWithResources")
+    public Joueur[] debutPartie(DatabaseManager dbm){
 
+        Joueur[] tabJoueur = new Joueur[2];
         System.out.println("Début de la partie");
         Scanner nbJoueur = new Scanner(System.in);
-        int choix = 0;
+        int choix;
         do{
             System.out.println("Choisissez le nombre de joueurs : ");
             System.out.println("/1/  1 Joueur (contre l'IA)");
@@ -27,6 +30,7 @@ public class Partie{
             choix = nbJoueur.nextInt();
             if (choix == 1){
                 System.out.println("Vous avez choisi de jouer contre l'IA");
+                pause(500);
 
 
                 //creation de l'IA
@@ -39,12 +43,19 @@ public class Partie{
                     equipeJ[i] = pokeDAO.chargerParId(idPokeIA, attaquesPokeIA);
                 }
                 JoueurIA joueurIA = new JoueurIA(nomJ, equipeJ);
-                System.out.println("Voici votre adversaire : \n "+ joueurIA.toString());
+                System.out.println("\n Voici votre adversaire : \n ");
+                pause(500);
+                joueurIA.afficherJoueur();
+                
 
                 //creation du joueur humain
                 joueur1 = creationJH(dbm);
-                System.out.println("Voici votre dresseur : " + joueur1.toString());
-                 
+                System.out.println("Voici votre dresseur : ");
+                pause(500);
+                joueur1.afficherJoueur();
+
+                tabJoueur[0] = joueurIA;
+                tabJoueur[1] = joueur1; 
 
             } else if (choix == 2){
             System.out.println("Vous avez choisi de jouer contre un autre joueur");
@@ -57,7 +68,17 @@ public class Partie{
                 joueur2 = creationJH(dbm);
 
                 System.out.println("Ce combat opposera " + joueur1.getNom() + " à " + joueur2.getNom());
-                System.out.println("Voici vos equipes : "+ joueur1.toString() + "\n" + joueur2.toString());
+                System.out.println("Voici vos equipes : \n");
+                pause(500);
+                joueur1.afficherJoueur();
+                pause(1000);
+                System.out.println("\n VS \n");
+                pause(500);
+                joueur2.afficherJoueur();
+                pause(1000);
+
+                tabJoueur[0] = joueur1;
+                tabJoueur[1] = joueur2;
         
             }
 
@@ -66,8 +87,17 @@ public class Partie{
             }
             
         } while (choix != 1 && choix != 2);
-        nbJoueur.close();   
+        nbJoueur.close(); 
+
+        return tabJoueur;
     }
+
+
+    //Methode du combat qui gère le déroulement du combat, les tours, les attaques, les changements de pokémon, etc.
+    public void combat(Joueur[] tabJoueur){
+        //TODO : implémenter la logique du combat
+    }
+
 
 
     private JoueurHumain creationJH(DatabaseManager dbm){
@@ -89,7 +119,7 @@ public class Partie{
     private Pokemon[] choisirPokemonJH(DatabaseManager dbm) {
         try {
             dbm.connect();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion : " + e.getMessage());
         }
         System.out.println("Voici la liste des Pokémon disponibles : ");
@@ -114,6 +144,10 @@ public class Partie{
             System.out.println("Erreur lors de la déconnexion ! Code Erreur : " + e.getErrorCode());
         }
         return equipeJ;
+    }
+    //Methode pour le tour a tour du combat, elle gère les actions possibles pour chaque joueur (attaquer, changer de pokémon, fuire)
+    public void tourCombat(Joueur[] tabJoueur){
+        //TODO : implémenter la logique du tour a tour du combat
     }
     
     public static void pause(int ms) {

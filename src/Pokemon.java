@@ -1,13 +1,13 @@
 public class Pokemon {
-    private int id;
-    private String nom;
+    private final int id;
+    private final String nom;
     private int pv; 
-    private int pvMax; 
-    private int attaque; 
-    private int defense; 
-    private int vitesse;
+    private final int pvMax; 
+    private final int attaque; 
+    private final int defense; 
+    private final int vitesse;
     private Type[] types;  
-    private Attaque[] attaques; 
+    private final Attaque[] attaques; 
     private Etat etat;
 
    
@@ -57,7 +57,7 @@ public class Pokemon {
     public int getDefense() {return defense;}
     public int getVitesse() {return vitesse;}
     public int getId() {return id;}
-    
+    public Etat getEtat() {return etat;}
 
     
 

@@ -17,6 +17,7 @@ public class Attaque {
     public void setPuissance(int puissance)     { this.puissance = puissance; }
     public void setTypeId(int typeId)           { this.typeId = typeId; }
 
+    @Override
     public String toString() {
         return "Attaque : " + libelle + ", Puissance=" + puissance + ", TypeID=" + typeId + "\n";
     }

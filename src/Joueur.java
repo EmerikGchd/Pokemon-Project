@@ -24,14 +24,23 @@ public class Joueur{
     public int getPokemonKO() {return pokemonKO;}
     public void setPokemonKO(int pokemonKO) {this.pokemonKO = pokemonKO;}
     
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Joueur: ").append(nom).append("\n");
-        sb.append("Equipe:\n");
-        for (Pokemon p : equipe) {
-            sb.append("- ").append(p.getNom()).append("\n PV: ").append(p.getPv()).append(" ").append(p.getAttaques()).append("\n");
+    public void afficherJoueur() {
+    System.out.println("Joueur: " + nom);
+    pause(1000);
+    System.out.println("Equipe:");
+    for (Pokemon p : equipe) {
+        System.out.println("- " + p.getNom());
+        System.out.println(" PV: " + p.getPv() + " " + p.getAttaques());
+        pause(500);
+    }
+}
+
+    public static void pause(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
-        return sb.toString();
     }
 
 }    
