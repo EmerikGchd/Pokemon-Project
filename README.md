@@ -48,7 +48,7 @@ Pokemon-Project-main/
 
 1. Compilez tous les fichiers `.java` :
    ```bash
-   javac -cp .:<driver>.jar src/*.java -d out/
+   javac -cp .:<driver>.jar src/*.java 
    ```
 
 2. Exécutez la classe principale :
@@ -93,4 +93,4 @@ Pokemon-Project-main/
 
 ## Auteurs
 
-Projet réalisé dans le cadre d'un cours de développement Java orienté objet.
+Projet réalisé dans le cadre d'un petit project de développement Java orienté objet par Adil T et Emerik G.
